@@ -4,6 +4,8 @@
 /node_modules
 /server/node_modules
 /client/node_modules
+/client/dist
+*.local
 /.pnp
 .pnp.js
 
@@ -27,3 +29,22 @@ yarn-error.log*
 /client/package-lock.json
 /server/package-lock.json
 /package-lock.json
+
+
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
