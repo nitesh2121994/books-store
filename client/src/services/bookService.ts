@@ -1,8 +1,10 @@
 import axios from "axios";
 import { Book } from "../types/book";
 
-export const getBooks = async () => {
-    const data: Book[] = await axios.get('');
+const baseUrl = "http://localhost:3001/"
 
-    return data;
+export const getBooks = async () => {
+    const response = await axios.get<Book[]>(`${baseUrl}books`);
+
+    return response.data;
 }

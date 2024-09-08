@@ -3,9 +3,7 @@ import { Book } from "../models/bookModel.js";
 export const getAllBooks = async (req, res) => {
   try {
     const books = await Book.find({});
-    return res.status(200).json({
-      data: books
-    });
+    return res.status(200).json(books);
   } catch (error) {
     console.log('error', error);
     return res.status(400).send({
@@ -18,9 +16,7 @@ export const getBookById = async (req, res) => {
   try {
     const { id } = req.params;
     const book = await Book.findById(id);
-    return res.status(200).json({
-      data: book
-    });
+    return res.status(200).json(book);
   } catch (error) {
     console.log('error', error);
     return res.status(500).send();
