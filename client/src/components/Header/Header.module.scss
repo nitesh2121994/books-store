@@ -1,0 +1,39 @@
+.header {
+  // index.css
+
+  background-color: #fff;
+  box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+
+  .headerWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .appName {
+    color: #00a8ff;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .menus {
+    gap: 1rem;
+    display: flex;
+
+    li {
+      list-style: none;
+      padding: 1.5rem 2rem;
+
+      a {
+        color: #000;
+
+        &:hover {
+          color: #00a8ff;
+        }
+        &.active {
+          color: #00a8ff;
+        }
+      }
+    }
+  }
+}
