@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import UserProfile from './pages/UserProfile'
 import UserBookCollection from './pages/UserBookCollection'
 import Header from './components/Header'
+import UserRegistration from './pages/UserRegistration'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/home' element={<Home />} />
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/your-collection" element={<UserBookCollection />} />
+          <Route path="/user-registration" element={<UserRegistration />} />
         </Routes>
       </div>
     </>
