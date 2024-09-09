@@ -1,1 +1,12 @@
-export const mongoDBUrl = "mongodb+srv://nitesh2121994:mxdF2VVnOcmtnZ5u@bookstoremern.lmasw.mongodb.net/books-collection?retryWrites=true&w=majority&appName=BookStoreMERN";
+// config.js
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const config = {
+  dbUrl: process.env.DB_URL,
+  port: process.env.PORT,
+  secretKey: process.env.SECRET_KEY
+};
+
+export default config;

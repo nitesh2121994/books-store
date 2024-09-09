@@ -2,6 +2,10 @@
 import express from "express";
 import routes from "./src/routes.js"
 import cors from "cors";
+import mongoose from 'mongoose';
+import config from './config.js';
+
+const { dbUrl, port, secretKey } = config;
 
 const app = express();
 
@@ -18,8 +22,19 @@ app.use(cors(
 //  Connect all our routes to our application
 app.use('/', routes);
 
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Connected!' });
+});
 
-app.listen(3001, (req, res) => {
+mongoose.connect(dbUrl)
+    .then(() => {
+        console.log('db is ready');
+    })
+    .catch((error) => {
+        console.log('db is not ready', error);
+    })
+
+app.listen(port, (req, res) => {
     console.log('listening on port 3001');
 });
 

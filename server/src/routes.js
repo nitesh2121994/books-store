@@ -1,24 +1,14 @@
 
 import express from "express";
-import mongoose from 'mongoose';
-import { mongoDBUrl } from '.././config.js';
 
+import userLoginRoutes from "./userLogin/userLoginRoutes.js";
+import userRegistrationRoutes from "./userRegistration/userRegistrationRoutes.js";
 import bookRoutes from "./books/bookRoutes.js";
 
 const routes = express.Router()
 
 routes.use('/books', bookRoutes);
-
-routes.get('/', (req, res) => {
-  res.status(200).json({ message: 'Connected!' });
-});
-
-mongoose.connect(mongoDBUrl)
-    .then(() => {
-        console.log('db is ready');
-    })
-    .catch((error) => {
-        console.log('db is not ready', error);
-    })
+routes.use('/register', userRegistrationRoutes);
+routes.use("/login", userLoginRoutes);
 
 export default routes;
