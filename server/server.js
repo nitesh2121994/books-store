@@ -10,14 +10,14 @@ const { dbUrl, port, secretKey } = config;
 const app = express();
 
 app.use(express.json());
-
-app.use(cors(
-    {
-        origin: "http://localhost:5173",
-        methods: [],
-        allowedHeaders: []
-    }
-))
+app.use(cors())
+// app.use(cors(
+//     {
+//         origin: "http://localhost:5173",
+//         methods: [],
+//         allowedHeaders: []
+//     }
+// ))
 
 //  Connect all our routes to our application
 app.use('/', routes);

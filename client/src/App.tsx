@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Route, Routes, Navigate  } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Home from './pages/Home'
 import UserProfile from './pages/UserProfile'
 import UserBookCollection from './pages/UserBookCollection'
 import Header from './components/Header'
 import UserRegistration from './pages/UserRegistration'
 
+import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer } from 'react-toastify'
+
+
 function App() {
 
   return (
     <>
+      <ToastContainer />
       <Header />
 
       <div className="container">
         <Routes>
-          <Route path='/' element={<Navigate to="/home"/>}  />
+          <Route path='/' element={<Navigate to="/home" />} />
           <Route path='/home' element={<Home />} />
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/your-collection" element={<UserBookCollection />} />

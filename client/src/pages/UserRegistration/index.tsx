@@ -1,97 +1,90 @@
 import React, { useState } from 'react';
-import { Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 
 import * as Yup from 'yup';
+import { User } from '../../types/User';
+import { useMutation } from '@tanstack/react-query';
+import { userRegistration } from '../../services/userRegistration';
+import Loader from '../../components/Loader/Loader';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 const UserRegistration = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    fullName: ''
-  });
+  const navigation = useNavigate();
+
+  const { status, mutate, data } = useMutation<any, AxiosError<any, any>, User>({
+    mutationFn: userRegistration,
+    onSuccess: (data, variables, context) => {
+      toast.success("User registered successfully. Please login to browse your book collection.");
+    },
+    onError(error, variables, context) {
+      toast.error(error?.response?.data.error);
+    },
+  })
 
   const userRegistrationSchema = Yup.object().shape({
     fullName: Yup.string().required('Required'),
     userName: Yup.string().required('Required'),
     password: Yup.string()
-    .min(8,'Password should be between 8-16 characters')
-    .max(16,'Password should be between 8-16 characters')
-    .required('Required'),
+      .min(8, 'Password should be between 8-16 characters')
+      .max(16, 'Password should be between 8-16 characters')
+      .required('Required'),
   });
 
-  const handleChange = (e: any) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+  const handleSubmit = (formData: User) => {
     console.log('Form Data Submitted:', formData);
+    mutate(formData);
+
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        {status === "pending" ? <Loader /> : null}
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Register</h2>
         <Formik
           initialValues={{ fullName: '', userName: '', password: '' }}
           validationSchema={userRegistrationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
+            handleSubmit(values);
+            setSubmitting(false);
           }}
         >
           {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            /* and other goodies */
           }) => (
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <Form className="space-y-6">
               <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
-                <input
+                <Field
                   type="text"
                   name="fullName"
                   id="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  required
                 />
+                <ErrorMessage component="div" className='text-red-700' name="fullName"></ErrorMessage>
               </div>
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                <input
+                <label htmlFor="userName" className="block text-sm font-medium text-gray-700">User Name</label>
+                <Field
                   type="text"
-                  name="username"
-                  id="username"
-                  value={formData.username}
-                  onChange={handleChange}
+                  name="userName"
+                  id="userName"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  required
                 />
+                <ErrorMessage component="div" className='text-red-700' name="userName"></ErrorMessage>
+
               </div>
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                <input
+                <Field
                   type="password"
                   name="password"
                   id="password"
-                  value={formData.password}
-                  onChange={handleChange}
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  required
                 />
+                <ErrorMessage component="div" className='text-red-700' name="password"></ErrorMessage>
               </div>
               <button
                 type="submit"
@@ -99,7 +92,7 @@ const UserRegistration = () => {
               >
                 Register
               </button>
-            </form>
+            </Form>
           )}
         </Formik>
       </div>
